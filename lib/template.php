@@ -236,13 +236,13 @@ class OC_Template{
 			\OC::$session->set('formfactor', $_GET['formfactor']);
 		}
 		$formfactor = \OC::$session->get('formfactor');
-		if($formfactor=='default') {
+		if($formfactor === 'default') {
 			$fext='';
-		}elseif($formfactor=='mobile') {
+		}elseif($formfactor === 'mobile') {
 			$fext='.mobile';
-		}elseif($formfactor=='tablet') {
+		}elseif($formfactor === 'tablet') {
 			$fext='.tablet';
-		}elseif($formfactor=='standalone') {
+		}elseif($formfactor === 'standalone') {
 			$fext='.standalone';
 		}else{
 			$fext='';
@@ -267,7 +267,7 @@ class OC_Template{
 
 		$app = $this->application;
 		// Check if it is a app template or not.
-		if( $app != "" ) {
+		if( $app !== "" ) {
 			// Check if the app is in the app folder or in the root
 			if( file_exists(OC_App::getAppPath($app)."/templates/" )) {
 				// Check if the template is overwritten by the selected theme
@@ -309,7 +309,7 @@ class OC_Template{
 	 */
 	protected function checkPathForTemplate($path, $name, $fext)
 	{
-		if ($name =='') return false;
+		if ($name === '') return false;
 		$template = null;
 		if( is_file( $path.$name.$fext.'.php' )) {
 			$template = $path.$name.$fext.'.php';
