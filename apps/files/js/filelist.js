@@ -23,7 +23,7 @@ var FileList={
 			"href": linktarget
 		});
 		//split extension from filename for non dirs
-		if (type != 'dir' && name.indexOf('.')!=-1) {
+		if (type !== 'dir' && name.indexOf('.') !== -1) {
 			basename=name.substr(0,name.lastIndexOf('.'));
 			extension=name.substr(name.lastIndexOf('.'));
 		} else {
@@ -36,7 +36,7 @@ var FileList={
 			name_span.append($('<span></span>').addClass('extension').text(extension));
 		}
 		//dirs can show the number of uploaded files
-		if (type == 'dir') {
+		if (type === 'dir') {
 			link_elem.append($('<span></span>').attr({
 				'class': 'uploadtext',
 				'currentUploads': 0
@@ -135,7 +135,7 @@ var FileList={
 	},
 	refresh:function(data) {
 		var result = jQuery.parseJSON(data.responseText);
-		if(typeof(result.data.breadcrumb) != 'undefined'){
+		if(typeof(result.data.breadcrumb) !== 'undefined'){
 			updateBreadcrumb(result.data.breadcrumb);
 		}
 		FileList.update(result.data.files);
@@ -144,7 +144,7 @@ var FileList={
 	remove:function(name){
 		$('tr').filterAttr('data-file',name).find('td.filename').draggable('destroy');
 		$('tr').filterAttr('data-file',name).remove();
-		if($('tr[data-file]').length==0){
+		if($('tr[data-file]').length === 0){
 			$('#emptyfolder').show();
 		}
 	},
@@ -168,7 +168,7 @@ var FileList={
 			}else{
 				$(fileElements[pos]).after(element);
 			}
-		}else if(type=='dir' && $('tr[data-file]').length>0){
+		}else if(type === 'dir' && $('tr[data-file]').length>0){
 			$('tr[data-file]').first().before(element);
 		} else if(type=='file' && $('tr[data-file]').length>0) {
 			$('tr[data-file]').last().before(element);
@@ -182,7 +182,7 @@ var FileList={
 		tr.data('loading',false);
 		mime=tr.data('mime');
 		tr.attr('data-mime',mime);
-		if (id != null) {
+		if (id !== null) {
 			tr.attr('data-id', id);
 		}
 		getMimeIcon(mime,function(path){
@@ -217,7 +217,7 @@ var FileList={
 			var newname=input.val();
 			if (!Files.isFileNameValid(newname)) {
 				return false;
-			} else if (newname != name) {
+			} else if (newname !== name) {
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
 				} else {
@@ -265,14 +265,14 @@ var FileList={
 			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
 			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
-			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
+			if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 				var basename=newname.substr(0,newname.lastIndexOf('.'));
 			} else {
 				var basename=newname;
 			}
 			td.find('a.name span.nametext').text(basename);
-			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
-				if (td.find('a.name span.extension').length == 0 ) {
+			if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+				if (td.find('a.name span.extension').length === 0 ) {
 					td.find('a.name span.nametext').append('<span class="extension"></span>');
 				}
 				td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
@@ -282,7 +282,7 @@ var FileList={
 			return false;
 		});
 		input.keyup(function(event){
-			if (event.keyCode == 27) {
+			if (event.keyCode === 27) {
 				tr.data('renaming',false);
 				form.remove();
 				td.children('a.name').show();
@@ -353,7 +353,7 @@ var FileList={
 	finishReplace:function() {
 		if (!FileList.replaceCanceled && FileList.replaceOldName && FileList.replaceNewName) {
 			$.ajax({url: OC.filePath('files', 'ajax', 'rename.php'), async: false, data: { dir: $('#dir').val(), newname: FileList.replaceNewName, file: FileList.replaceOldName }, success: function(result) {
-				if (result && result.status == 'success') {
+				if (result && result.status === 'success') {
 					$('tr').filterAttr('data-replace', 'true').removeAttr('data-replace');
 				} else {
 					OC.dialogs.alert(result.data.message, 'Error moving file');
@@ -384,7 +384,7 @@ var FileList={
 		$.post(OC.filePath('files', 'ajax', 'delete.php'),
 				{dir:$('#dir').val(),files:fileNames},
 				function(result){
-					if (result.status == 'success') {
+					if (result.status === 'success') {
 						$.each(files,function(index,file){
 							var files = $('tr').filterAttr('data-file',file);
 							files.remove();
@@ -433,7 +433,7 @@ $(document).ready(function(){
 		// only add to fileList if it exists
 		if ($('#fileList').length > 0) {
 
-			if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name)!=-1){//finish delete if we are uploading a deleted file
+			if(FileList.deleteFiles && FileList.deleteFiles.indexOf(data.files[0].name) !== -1){//finish delete if we are uploading a deleted file
 				FileList.finishDelete(null, true); //delete file before continuing
 			}
 
