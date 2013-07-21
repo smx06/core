@@ -423,7 +423,7 @@ var FileList={
 			}
 
 			var info = t('files', '{dirs} and {files}', infovars);
-			var filesize = '<td class="filesize" title="'+humanFileSize(totalsize)+'">'+simpleFileSize(totalsize)+'</td>';
+			var filesize = '<td class="filesize">'+humanFileSize(totalsize)+'</td>';
 			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+filesize+'<td></td></tr>');
 
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
@@ -457,8 +457,7 @@ var FileList={
 			// Substitute old content with new translations
 			$('.summary .dirinfo').html(tp('files', '%n folder', '%n folders', totaldirs));
 			$('.summary .fileinfo').html(tp('files', '%n file', '%n files', totalfiles));
-			$('.summary .filesize').html(simpleFileSize(totalsize));
-			$('.summary .filesize').attr('title', humanFileSize(totalsize));
+			$('.summary .filesize').html(humanFileSize(totalsize));
 
 			// Show only what's necessary (may be hidden)
 			if ($('.summary .dirinfo').html().charAt(0) === "0") {
