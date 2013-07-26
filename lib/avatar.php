@@ -19,10 +19,10 @@ class OC_Avatar {
 			// avatars are disabled
 			return false;
 		} elseif ($mode === "gravatar") {
-			$email = OC_Preferences::getValue($user, 'personal', 'email');
+			$email = OC_Preferences::getValue($user, 'settings', 'email');
 			if ($email !== null) {
-				$emailhash = hash('md5', $email);
-				$url = "www.gravatar.com/img/".$emailhash."?s=".$size;
+				$emailhash = md5(strtolower(trim($email)));
+				$url = "http://www.gravatar.com/avatar/".$emailhash."?s=".$size;
 				return $url;
 			} else {
 				return \OC_Avatar::getDefaultAvatar($size);

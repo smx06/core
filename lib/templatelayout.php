@@ -20,7 +20,7 @@ class OC_TemplateLayout extends OC_Template {
 
 			// display avatars if they are enabled
 			if (OC_Config::getValue('avatar') === 'gravatar' || OC_Config::getValue('avatar') === 'local') {
-				$this->assign('avatar', '<img src="'.OC_Avatar::get(OC_User::getUser()).'">');
+				$this->assign('avatar', '<img src="'.OC_Avatar::get(OC_User::getUser(), 32).'">');
 			}
 
 			// Update notification
