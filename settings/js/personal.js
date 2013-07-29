@@ -44,6 +44,11 @@ function changeDisplayName(){
     }
 }
 
+function selectAvatar (path) {
+	$.post(OC.filePath('settings', 'ajax', 'newavatar.php'), {path: path});
+	location.reload();
+}
+
 $(document).ready(function(){
 	$("#passwordbutton").click( function(){
 		if ($('#pass1').val() !== '' && $('#pass2').val() !== '') {
@@ -109,6 +114,19 @@ $(document).ready(function(){
 			}
 		});
 		return false;
+	});
+
+	$('#uploadavatar').click(function(){
+		alert('To be done');
+	});
+
+	$('#selectavatar').click(function(){
+		OC.dialogs.filepicker(t("Select an avatar"), selectAvatar, false, "image");
+	});
+
+	$('#removeavatar').click(function(){
+		$.post(OC.filePath('settings', 'ajax', 'newavatar.php'), {path: false});
+		location.reload();
 	});
 } );
 
