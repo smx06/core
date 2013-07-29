@@ -59,7 +59,7 @@ class OC_Core_LostPassword_Controller {
 				try {
 					OC_Mail::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
 				} catch (Exception $e) {
-					OC_Template::printErrorPage( 'A problem occurs during sending the e-mail please contact your administrator.');
+					OC_Template::printErrorPage( 'Couldn’t send reset email. Please contact your administrator.');
 				}
 				self::displayLostPasswordPage(false, true);
 			} else {
