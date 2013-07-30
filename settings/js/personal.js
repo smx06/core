@@ -46,7 +46,13 @@ function changeDisplayName(){
 
 function selectAvatar (path) {
 	$.post(OC.filePath('settings', 'ajax', 'newavatar.php'), {path: path});
-	location.reload();
+	updateAvatar();
+}
+
+function updateAvatar () {
+	$.post(OC.filePath('core', 'ajax', 'getavatar.php'), {user: OC.currentUser, size: 128}, function(data){
+		$('#avatar img').attr('src', data.data);
+	});
 }
 
 $(document).ready(function(){
@@ -118,15 +124,16 @@ $(document).ready(function(){
 
 	$('#uploadavatar').click(function(){
 		alert('To be done');
+		updateAvatar();
 	});
 
 	$('#selectavatar').click(function(){
-		OC.dialogs.filepicker(t("Select an avatar"), selectAvatar, false, "image");
+		OC.dialogs.filepicker(t('settings', "Select an avatar"), selectAvatar, false, "image");
 	});
 
 	$('#removeavatar').click(function(){
 		$.post(OC.filePath('settings', 'ajax', 'newavatar.php'), {path: false});
-		location.reload();
+		updateAvatar();
 	});
 } );
 
