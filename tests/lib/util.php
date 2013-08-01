@@ -8,12 +8,9 @@
 
 class Test_Util extends PHPUnit_Framework_TestCase {
 
-	// Constructor
-	function Test_Util() {
-		date_default_timezone_set("UTC");
-	}
-
 	function testFormatDate() {
+		date_default_timezone_set("UTC");
+
 		$result = OC_Util::formatDate(1350129205);
 		$expected = 'October 13, 2012 11:53';
 		$this->assertEquals($expected, $result);
@@ -37,6 +34,12 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$result = OC_Util::sanitizeHTML($goodString);
 		$this->assertEquals("This is an harmless string.", $result);
 	}
+	
+	function testEncodePath(){
+		$component = '/§#@test%&^ä/-child';
+		$result = OC_Util::encodePath($component);
+		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+	}
 
 	function testGenerate_random_bytes() {
 		$result = strlen(OC_Util::generate_random_bytes(59));
@@ -55,8 +58,28 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		OC_Config::deleteKey('mail_domain');
 	}
 
-  function testGetInstanceIdGeneratesValidId() {
-    OC_Config::deleteKey('instanceid');
-    $this->assertStringStartsWith('oc', OC_Util::getInstanceId());
-  }
+	function testGetInstanceIdGeneratesValidId() {
+		OC_Config::deleteKey('instanceid');
+		$this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+	}
+
+	/**
+	 * @dataProvider baseNameProvider
+	 */
+	public function testBaseName($expected, $file)
+	{
+		$base = \OC_Util::basename($file);
+		$this->assertEquals($expected, $base);
+	}
+
+	public function baseNameProvider()
+	{
+		return array(
+			array('public_html', '/home/user/public_html/'),
+			array('public_html', '/home/user/public_html'),
+			array('', '/'),
+			array('public_html', 'public_html'),
+			array('442aa682de2a64db1e010f50e60fd9c9', 'local::C:\Users\ADMINI~1\AppData\Local\Temp\2/442aa682de2a64db1e010f50e60fd9c9/')
+		);
+	}
 }

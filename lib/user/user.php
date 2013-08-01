@@ -44,7 +44,7 @@ class User {
 	 */
 	public function __construct($uid, $backend, $emitter = null) {
 		$this->uid = $uid;
-		if ($backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
+		if ($backend and $backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
 			$this->displayName = $backend->getDisplayName($uid);
 		} else {
 			$this->displayName = $uid;
@@ -131,10 +131,10 @@ class User {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword) {
+		if ($this->emitter) {
+			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
+		}
 		if ($this->backend->implementsActions(\OC_USER_BACKEND_SET_PASSWORD)) {
-			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
-			}
 			$result = $this->backend->setPassword($this->uid, $password);
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
